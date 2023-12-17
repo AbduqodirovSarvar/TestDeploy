@@ -28,17 +28,20 @@ builder.Services.Configure<RequestLocalizationOptions>(
 
 var app = builder.Build();
 
+app.UseCors(options =>
+{
+    options.AllowAnyOrigin()
+           .AllowAnyMethod()
+           .AllowAnyHeader();
+});
 
 var localizeOptions = app.Services.GetService<IOptions<RequestLocalizationOptions>>();
 app.UseRequestLocalization(localizeOptions.Value);
 
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
